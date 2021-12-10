@@ -274,7 +274,7 @@ MUTATOR:
 		go func(c chan string) {
 			for {
 				file, more := <-c
-				if more == false {
+				if !more {
 					wg.Done()
 					return
 				}
@@ -386,16 +386,12 @@ func mutate(opts *options, mutators []mutatorItem, mutationBlackList map[string]
 
 					switch execExitCode {
 					case 0:
-						fmt.Printf("PASS %s\n", msg)
-
 						stats.passed++
 					case 1:
 						fmt.Printf("FAIL %s\n", msg)
 
 						stats.failed++
 					case 2:
-						fmt.Printf("SKIP %s\n", msg)
-
 						stats.skipped++
 					default:
 						fmt.Printf("UNKOWN exit code for %s\n", msg)
